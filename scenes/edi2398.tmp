@@ -1,0 +1,185 @@
+[gd_scene load_steps=9 format=3 uid="uid://cr7xoe476rfs5"]
+
+[ext_resource type="Script" path="res://scripts/editor.gd" id="1_083fh"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="2_iutox"]
+[ext_resource type="Script" path="res://scripts/canvas.gd" id="3_5c4jg"]
+[ext_resource type="Texture2D" uid="uid://ipmchjqiehgd" path="res://img/rectangle.svg" id="4_tvfu3"]
+[ext_resource type="Texture2D" uid="uid://coytnrq5581kp" path="res://img/text.svg" id="5_qhm71"]
+[ext_resource type="Texture2D" uid="uid://cpw4c2mess5d6" path="res://img/line.svg" id="6_kjqdh"]
+[ext_resource type="Texture2D" uid="uid://drh0cgiyv3mjp" path="res://img/circle.svg" id="7_mese4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rkvxe"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_top = 4
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[node name="editor" type="Node2D" node_paths=PackedStringArray("camera", "canvas")]
+script = ExtResource("1_083fh")
+camera = NodePath("Camera2D")
+canvas = NodePath("canvas")
+
+[node name="canvas" type="Node2D" parent="."]
+script = ExtResource("3_5c4jg")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+script = ExtResource("2_iutox")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
+offset = Vector2(576, 324)
+transform = Transform2D(1, 0, 0, 1, 576, 324)
+
+[node name="Control" type="Control" parent="Camera2D/CanvasLayer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -576.0
+offset_top = -324.0
+offset_right = -576.0
+offset_bottom = -264.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSeparator" type="HSeparator" parent="Camera2D/CanvasLayer/Control/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_rkvxe")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/CanvasLayer/Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="zoomPanel" type="Panel" parent="Camera2D/CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -118.0
+offset_right = 150.0
+offset_bottom = -78.0
+grow_vertical = 0
+mouse_filter = 1
+
+[node name="zoomBox" type="HBoxContainer" parent="Camera2D/CanvasLayer/Control/zoomPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="minus" type="Button" parent="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+text = "-"
+
+[node name="zoomLabel" type="Label" parent="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox"]
+layout_mode = 2
+text = "100"
+
+[node name="percent" type="Label" parent="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox"]
+layout_mode = 2
+text = "%"
+
+[node name="plus" type="Button" parent="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+text = "+"
+
+[node name="editPanel" type="Panel" parent="Camera2D/CanvasLayer/Control"]
+visible = false
+custom_minimum_size = Vector2(200, 400)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -212.0
+offset_top = -200.0
+offset_right = -12.0
+offset_bottom = 200.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Camera2D/CanvasLayer/Control/editPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/CanvasLayer/Control/editPanel/ScrollContainer"]
+layout_mode = 2
+
+[node name="tools" type="Panel" parent="Camera2D/CanvasLayer/Control"]
+custom_minimum_size = Vector2(40, 400)
+layout_mode = 0
+offset_top = 103.0
+offset_right = 40.0
+offset_bottom = 503.0
+mouse_filter = 1
+
+[node name="buttons" type="VBoxContainer" parent="Camera2D/CanvasLayer/Control/tools"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="addRect" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+icon = ExtResource("4_tvfu3")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addText" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "T"
+icon = ExtResource("5_qhm71")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addLine" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+icon = ExtResource("6_kjqdh")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addCircle" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+icon = ExtResource("7_mese4")
+icon_alignment = 1
+expand_icon = true
+
+[connection signal="pressed" from="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox/minus" to="." method="_on_minus_pressed"]
+[connection signal="pressed" from="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox/plus" to="." method="_on_plus_pressed"]
+[connection signal="pressed" from="Camera2D/CanvasLayer/Control/tools/buttons/addRect" to="." method="_on_add_rect_pressed"]
+[connection signal="pressed" from="Camera2D/CanvasLayer/Control/tools/buttons/addText" to="." method="_on_add_text_pressed"]
+[connection signal="pressed" from="Camera2D/CanvasLayer/Control/tools/buttons/addLine" to="." method="_on_add_line_pressed"]
+[connection signal="pressed" from="Camera2D/CanvasLayer/Control/tools/buttons/addCircle" to="." method="_on_add_circle_pressed"]

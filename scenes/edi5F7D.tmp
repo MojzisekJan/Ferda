@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cr7xoe476rfs5"]
+
+[ext_resource type="Script" path="res://scripts/editor.gd" id="1_083fh"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="2_iutox"]
+[ext_resource type="Script" path="res://scripts/canvas.gd" id="3_5c4jg"]
+
+[node name="editor" type="Node2D" node_paths=PackedStringArray("camera", "canvas")]
+script = ExtResource("1_083fh")
+camera = NodePath("Camera2D")
+canvas = NodePath("canvas")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("2_iutox")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="canvas" type="Node2D" parent="."]
+script = ExtResource("3_5c4jg")

@@ -1,0 +1,67 @@
+[gd_scene load_steps=4 format=3 uid="uid://cr7xoe476rfs5"]
+
+[ext_resource type="Script" path="res://scripts/editor.gd" id="1_083fh"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="2_iutox"]
+[ext_resource type="Script" path="res://scripts/canvas.gd" id="3_5c4jg"]
+
+[node name="editor" type="Control" node_paths=PackedStringArray("camera", "canvas")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_083fh")
+camera = NodePath("Camera2D")
+canvas = NodePath("canvas")
+
+[node name="canvas" type="Node2D" parent="."]
+script = ExtResource("3_5c4jg")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("2_iutox")
+
+[node name="Control" type="Control" parent="Camera2D"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -575.0
+offset_top = -324.0
+offset_right = -489.0
+offset_bottom = -248.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="addRect" type="Button" parent="Camera2D/Control/VBoxContainer"]
+layout_mode = 2
+text = "Add Rect"
+
+[node name="addText" type="Button" parent="Camera2D/Control/VBoxContainer"]
+layout_mode = 2
+text = "Add Text"
+
+[node name="addLine" type="Button" parent="Camera2D/Control/VBoxContainer"]
+layout_mode = 2
+text = "Add Line"
+
+[node name="addCircle" type="Button" parent="Camera2D/Control/VBoxContainer"]
+layout_mode = 2
+text = "Add Circle"
+
+[connection signal="pressed" from="Camera2D/Control/VBoxContainer/addRect" to="." method="_on_add_rect_pressed"]
+[connection signal="pressed" from="Camera2D/Control/VBoxContainer/addText" to="." method="_on_add_text_pressed"]
+[connection signal="pressed" from="Camera2D/Control/VBoxContainer/addLine" to="." method="_on_add_line_pressed"]
+[connection signal="pressed" from="Camera2D/Control/VBoxContainer/addCircle" to="." method="_on_add_circle_pressed"]

@@ -1,0 +1,617 @@
+[gd_scene load_steps=39 format=3 uid="uid://cr7xoe476rfs5"]
+
+[ext_resource type="Script" path="res://scripts/editor.gd" id="1_083fh"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="2_iutox"]
+[ext_resource type="Script" path="res://scripts/canvas.gd" id="3_5c4jg"]
+[ext_resource type="Texture2D" uid="uid://cis3p04uuiigj" path="res://img/menu.svg" id="4_18ct7"]
+[ext_resource type="StyleBox" uid="uid://i6cpuotqh0js" path="res://styles/panel.tres" id="5_3bgrr"]
+[ext_resource type="Script" path="res://scripts/style.gd" id="5_440sl"]
+[ext_resource type="Script" path="res://scripts/save.gd" id="6_xvx5g"]
+[ext_resource type="Script" path="res://scripts/quit.gd" id="7_ylm85"]
+[ext_resource type="Theme" uid="uid://duge0xlll0grs" path="res://styles/dark.tres" id="8_64wq5"]
+[ext_resource type="Texture2D" uid="uid://dqdwkqjqg27df" path="res://img/actions/top.svg" id="8_ogu8y"]
+[ext_resource type="Texture2D" uid="uid://1xe3111wdsex" path="res://img/actions/down.svg" id="9_i76b1"]
+[ext_resource type="Texture2D" uid="uid://doojshmc7g68" path="res://img/user.svg" id="9_r62pv"]
+[ext_resource type="Texture2D" uid="uid://xjus5vxmiug1" path="res://img/actions/upper.svg" id="10_w670u"]
+[ext_resource type="Texture2D" uid="uid://du6k23dxslo02" path="res://img/actions/lower.svg" id="11_m85pl"]
+[ext_resource type="Texture2D" uid="uid://bgkdi0byhe60" path="res://img/actions/flipHorizontal.svg" id="12_c233b"]
+[ext_resource type="Texture2D" uid="uid://cmaly0ipuc74h" path="res://img/actions/flipVertical.svg" id="13_on54t"]
+[ext_resource type="Texture2D" uid="uid://81lot8xdi488" path="res://img/actions/rotateLeft.svg" id="14_2ev8n"]
+[ext_resource type="Texture2D" uid="uid://c6v8vihsrxmi6" path="res://img/actions/rotateRight.svg" id="15_pm7ic"]
+[ext_resource type="Texture2D" uid="uid://caqamuclibhbc" path="res://img/laser.svg" id="18_n4gki"]
+[ext_resource type="Texture2D" uid="uid://d38sxijfw74kq" path="res://img/icons/rectangle.png" id="20_rvaff"]
+[ext_resource type="Texture2D" uid="uid://5aehm0736qf6" path="res://img/icons/pen2.png" id="21_4lccr"]
+[ext_resource type="Texture2D" uid="uid://b1d6xs5ofk83p" path="res://img/icons/text.png" id="22_e0a85"]
+[ext_resource type="Texture2D" uid="uid://co0n143b8wgy7" path="res://img/icons/line.png" id="23_an4ca"]
+[ext_resource type="Texture2D" uid="uid://tlpascwiqfqd" path="res://img/icons/polyLine.png" id="24_im8w5"]
+[ext_resource type="Texture2D" uid="uid://cc8fkds8e0ibe" path="res://img/icons/arrow.png" id="26_14lp0"]
+[ext_resource type="Texture2D" uid="uid://bk8yl7kabtumu" path="res://img/icons/curve.png" id="27_03gat"]
+[ext_resource type="Texture2D" uid="uid://cp16bc1msxp2q" path="res://img/icons/arc.png" id="27_dpayt"]
+[ext_resource type="Texture2D" uid="uid://cotvkl3ximipo" path="res://img/icons/circle.png" id="28_b7msv"]
+[ext_resource type="Texture2D" uid="uid://bqg51qkal0xd4" path="res://img/icons/triangle.png" id="28_osebh"]
+[ext_resource type="Texture2D" uid="uid://dgm2wy8jx4xo8" path="res://img/icons/orthogonalTriangle.png" id="29_4q1it"]
+[ext_resource type="Texture2D" uid="uid://cyg3cepwmu41d" path="res://img/icons/diamond.png" id="31_0omy1"]
+[ext_resource type="Texture2D" uid="uid://cryys4qa0pc64" path="res://img/icons/hexagon.png" id="32_uhdat"]
+[ext_resource type="Texture2D" uid="uid://m6y4stps7nrl" path="res://img/icons/parallelogram.png" id="33_hitnv"]
+[ext_resource type="Texture2D" uid="uid://ccyjww3x06gav" path="res://img/image.svg" id="34_4nmy7"]
+[ext_resource type="Texture2D" uid="uid://ccx8w2ny37xgl" path="res://img/icons/trapezoid.png" id="34_x0bkb"]
+[ext_resource type="Texture2D" uid="uid://ct024cjx3y0xr" path="res://img/icons/star.png" id="35_ov7jh"]
+[ext_resource type="Texture2D" uid="uid://c4po22wy2pt3d" path="res://img/icons/ngon.png" id="36_olfl8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rkvxe"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_top = 4
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[node name="editor" type="Node2D" node_paths=PackedStringArray("camera", "canvas", "menuBox", "style")]
+script = ExtResource("1_083fh")
+camera = NodePath("Camera2D")
+canvas = NodePath("canvas")
+menuBox = NodePath("Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox")
+style = NodePath("Camera2D/CanvasLayer/Control/style/styleScroll/styleVBox")
+
+[node name="canvas" type="Node2D" parent="."]
+script = ExtResource("3_5c4jg")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+script = ExtResource("2_iutox")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
+offset = Vector2(576, 324)
+transform = Transform2D(1, 0, 0, 1, 576, 324)
+
+[node name="Control" type="Control" parent="Camera2D/CanvasLayer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -576.0
+offset_top = -324.0
+offset_right = -576.0
+offset_bottom = -264.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSeparator" type="HSeparator" parent="Camera2D/CanvasLayer/Control/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxFlat_rkvxe")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/CanvasLayer/Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="zoomPanel" type="Panel" parent="Camera2D/CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -118.0
+offset_right = 150.0
+offset_bottom = -78.0
+grow_vertical = 0
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("5_3bgrr")
+
+[node name="zoomBox" type="HBoxContainer" parent="Camera2D/CanvasLayer/Control/zoomPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="minus" type="Button" parent="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+text = "-"
+
+[node name="zoom" type="Button" parent="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+text = "100 %"
+
+[node name="plus" type="Button" parent="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+text = "+"
+
+[node name="menu" type="Panel" parent="Camera2D/CanvasLayer/Control"]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 50.0
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("5_3bgrr")
+
+[node name="menu" type="MarginContainer" parent="Camera2D/CanvasLayer/Control/menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="menu" type="Button" parent="Camera2D/CanvasLayer/Control/menu/menu"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("8_64wq5")
+icon = ExtResource("4_18ct7")
+clip_text = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="menuBox" type="Panel" parent="Camera2D/CanvasLayer/Control/menu/menu/menu"]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 50.0
+offset_right = 250.0
+offset_bottom = 331.0
+theme_override_styles/panel = ExtResource("5_3bgrr")
+
+[node name="menuMargin" type="MarginContainer" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox"]
+custom_minimum_size = Vector2(200, 320)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="menuScroll" type="ScrollContainer" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox/menuMargin"]
+layout_mode = 2
+
+[node name="menuVbox" type="VBoxContainer" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox/menuMargin/menuScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="menuNew" type="Button" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox/menuMargin/menuScroll/menuVbox"]
+layout_mode = 2
+text = "New"
+alignment = 0
+
+[node name="menuOpen" type="Button" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox/menuMargin/menuScroll/menuVbox"]
+layout_mode = 2
+text = "Open"
+alignment = 0
+
+[node name="menuSave" type="Button" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox/menuMargin/menuScroll/menuVbox"]
+layout_mode = 2
+text = "Save"
+alignment = 0
+script = ExtResource("6_xvx5g")
+
+[node name="menuSaveAs" type="Button" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox/menuMargin/menuScroll/menuVbox"]
+layout_mode = 2
+text = "Save As"
+alignment = 0
+
+[node name="menuImport" type="Button" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox/menuMargin/menuScroll/menuVbox"]
+layout_mode = 2
+text = "Import"
+alignment = 0
+
+[node name="menuExport" type="Button" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox/menuMargin/menuScroll/menuVbox"]
+layout_mode = 2
+text = "Export"
+alignment = 0
+
+[node name="menuSettings" type="Button" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox/menuMargin/menuScroll/menuVbox"]
+layout_mode = 2
+text = "Settings"
+alignment = 0
+
+[node name="menuAbout" type="Button" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox/menuMargin/menuScroll/menuVbox"]
+layout_mode = 2
+text = "About"
+alignment = 0
+
+[node name="menuQuit" type="Button" parent="Camera2D/CanvasLayer/Control/menu/menu/menu/menuBox/menuMargin/menuScroll/menuVbox"]
+layout_mode = 2
+text = "Quit"
+alignment = 0
+script = ExtResource("7_ylm85")
+
+[node name="user" type="Panel" parent="Camera2D/CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -68.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 50.0
+grow_horizontal = 0
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("5_3bgrr")
+
+[node name="menu" type="MarginContainer" parent="Camera2D/CanvasLayer/Control/user"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="share" type="Button" parent="Camera2D/CanvasLayer/Control/user/menu"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+icon = ExtResource("9_r62pv")
+icon_alignment = 1
+expand_icon = true
+
+[node name="actions" type="Panel" parent="Camera2D/CanvasLayer/Control"]
+custom_minimum_size = Vector2(400, 40)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -170.0
+offset_top = 10.0
+offset_right = 170.0
+offset_bottom = 52.0
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("5_3bgrr")
+
+[node name="menu" type="MarginContainer" parent="Camera2D/CanvasLayer/Control/actions"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/CanvasLayer/Control/actions/menu"]
+layout_mode = 2
+alignment = 1
+
+[node name="top" type="Button" parent="Camera2D/CanvasLayer/Control/actions/menu/HBoxContainer"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("8_ogu8y")
+expand_icon = true
+
+[node name="down" type="Button" parent="Camera2D/CanvasLayer/Control/actions/menu/HBoxContainer"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("9_i76b1")
+expand_icon = true
+
+[node name="upper" type="Button" parent="Camera2D/CanvasLayer/Control/actions/menu/HBoxContainer"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("10_w670u")
+expand_icon = true
+
+[node name="lower" type="Button" parent="Camera2D/CanvasLayer/Control/actions/menu/HBoxContainer"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("11_m85pl")
+expand_icon = true
+
+[node name="flipH" type="Button" parent="Camera2D/CanvasLayer/Control/actions/menu/HBoxContainer"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("12_c233b")
+expand_icon = true
+
+[node name="flipV" type="Button" parent="Camera2D/CanvasLayer/Control/actions/menu/HBoxContainer"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("13_on54t")
+expand_icon = true
+
+[node name="rotLeft" type="Button" parent="Camera2D/CanvasLayer/Control/actions/menu/HBoxContainer"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("14_2ev8n")
+expand_icon = true
+
+[node name="rotRight" type="Button" parent="Camera2D/CanvasLayer/Control/actions/menu/HBoxContainer"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("15_pm7ic")
+expand_icon = true
+
+[node name="laser" type="Button" parent="Camera2D/CanvasLayer/Control/actions/menu/HBoxContainer"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("18_n4gki")
+expand_icon = true
+
+[node name="style" type="Panel" parent="Camera2D/CanvasLayer/Control"]
+visible = false
+custom_minimum_size = Vector2(200, 400)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -330.0
+offset_bottom = 270.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("5_3bgrr")
+
+[node name="styleScroll" type="ScrollContainer" parent="Camera2D/CanvasLayer/Control/style"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="styleVBox" type="VBoxContainer" parent="Camera2D/CanvasLayer/Control/style/styleScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 5
+script = ExtResource("5_440sl")
+
+[node name="tools" type="Panel" parent="Camera2D/CanvasLayer/Control"]
+custom_minimum_size = Vector2(40, 400)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -200.0
+offset_right = 90.0
+offset_bottom = 200.0
+grow_vertical = 2
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("5_3bgrr")
+
+[node name="buttons" type="GridContainer" parent="Camera2D/CanvasLayer/Control/tools"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="addRect" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("20_rvaff")
+icon_alignment = 1
+expand_icon = true
+
+[node name="pencil" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("21_4lccr")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addText" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("22_e0a85")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addLine" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("23_an4ca")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addpolyline" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("24_im8w5")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addArrow" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("26_14lp0")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addCurve" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("27_03gat")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addArc" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("27_dpayt")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addCircle" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("28_b7msv")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addTriangle" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("28_osebh")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addOrthogonalTriangle" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("29_4q1it")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addDiamond" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("31_0omy1")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addHexagon" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("32_uhdat")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addParallelogram" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("33_hitnv")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addTrapezoid" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("34_x0bkb")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addStar" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("35_ov7jh")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addNGon" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("36_olfl8")
+icon_alignment = 1
+expand_icon = true
+
+[node name="addImage" type="Button" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("8_64wq5")
+icon = ExtResource("34_4nmy7")
+icon_alignment = 1
+expand_icon = true
+
+[node name="inC" type="Label" parent="Camera2D/CanvasLayer/Control/tools/buttons"]
+layout_mode = 2
+
+[connection signal="mouse_entered" from="Camera2D/CanvasLayer/Control/zoomPanel" to="." method="_on_zoom_panel_mouse_entered"]
+[connection signal="mouse_exited" from="Camera2D/CanvasLayer/Control/zoomPanel" to="." method="_on_zoom_panel_mouse_exited"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox/minus" to="." method="_on_minus_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox/zoom" to="." method="_on_zoom_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/zoomPanel/zoomBox/plus" to="." method="_on_plus_button_down"]
+[connection signal="mouse_entered" from="Camera2D/CanvasLayer/Control/menu" to="." method="_on_menu_mouse_entered"]
+[connection signal="mouse_exited" from="Camera2D/CanvasLayer/Control/menu" to="." method="_on_menu_mouse_exited"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/menu/menu/menu" to="." method="_on_menu_button_down"]
+[connection signal="mouse_entered" from="Camera2D/CanvasLayer/Control/user" to="." method="_on_user_mouse_entered"]
+[connection signal="mouse_exited" from="Camera2D/CanvasLayer/Control/user" to="." method="_on_user_mouse_exited"]
+[connection signal="mouse_entered" from="Camera2D/CanvasLayer/Control/actions" to="." method="_on_actions_mouse_entered"]
+[connection signal="mouse_exited" from="Camera2D/CanvasLayer/Control/actions" to="." method="_on_actions_mouse_exited"]
+[connection signal="mouse_entered" from="Camera2D/CanvasLayer/Control/style" to="." method="_on_style_mouse_entered"]
+[connection signal="mouse_exited" from="Camera2D/CanvasLayer/Control/style" to="." method="_on_style_mouse_exited"]
+[connection signal="mouse_entered" from="Camera2D/CanvasLayer/Control/tools" to="." method="_on_tools_mouse_entered"]
+[connection signal="mouse_exited" from="Camera2D/CanvasLayer/Control/tools" to="." method="_on_tools_mouse_exited"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addRect" to="." method="_on_add_rect_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/pencil" to="." method="_on_add_pen_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addText" to="." method="_on_add_text_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addLine" to="." method="_on_add_line_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addpolyline" to="." method="_on_addpolyline_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addArrow" to="." method="_on_add_arrow_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addCurve" to="." method="_on_add_curve_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addArc" to="." method="_on_add_arc_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addCircle" to="." method="_on_add_circle_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addTriangle" to="." method="_on_add_triangle_button_down"]
+[connection signal="pressed" from="Camera2D/CanvasLayer/Control/tools/buttons/addOrthogonalTriangle" to="." method="_on_add_orthogonal_triangle_pressed"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addDiamond" to="." method="_on_add_diamond_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addHexagon" to="." method="_on_add_hexagon_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addParallelogram" to="." method="_on_add_parallelogram_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addTrapezoid" to="." method="_on_add_trapezoid_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addStar" to="." method="_on_add_star_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addNGon" to="." method="_on_add_n_gon_button_down"]
+[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/buttons/addImage" to="." method="_on_add_image_button_down"]
