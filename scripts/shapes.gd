@@ -143,7 +143,7 @@ func get_xor_gate_arc_points(half: Vector2) -> PackedVector2Array:
 		return_array[i] = pr
 		i += 1
 	for pr in left_array:
-		return_array[i] = pr
+		return_array[i - 1] = pr
 		i += 1
 
 	return return_array
