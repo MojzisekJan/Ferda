@@ -1569,7 +1569,7 @@ func draw_controls(key: int, type : global.S, pos: Vector2, siz: Vector2, points
 
 	if type in SIZELESS:
 		if type == global.S.polyline:
-			if camera.tool == global.TOOLS.POLYLINE:
+			if camera.active_tool == global.TOOLS.POLYLINE:
 				# Draw last polyline orange
 				for a in range(points.size()-1):
 					draw_rect(Rect2(points[a] - half_dims, dims), col, T, -1)
@@ -1776,7 +1776,7 @@ func _on_add_button(button_name: String) -> void:
 	if object_type != null:
 		add_shape.rpc(object_type)
 	if button_name in global.button_to_tool_map:
-		camera.tool = global.button_to_tool_map[button_name]
+		camera.active_tool = global.button_to_tool_map[button_name]
 		tool_panel.set_tool_icon(button_name)
 
 func delete_selected() -> void:

@@ -40,7 +40,7 @@ var selection_end   : Vector2 = VZERO
 var pan_start       : Vector2 = VZERO
 var press_point     : Vector2 = VZERO
 var touch_points    : Dictionary = {}
-var tool            : global.TOOLS = global.TOOLS.SELECT
+var active_tool     : global.TOOLS = global.TOOLS.SELECT
 var selection_rect  : Rect2
 var is_panning      : bool = F
 var mouse_left_down : bool = F
@@ -115,8 +115,8 @@ func _unhandled_input(event : InputEvent) -> void:
 	elif Input.is_action_just_pressed("redo"):
 		pass
 	elif Input.is_action_just_pressed("esc"):
-		if tool in [global.TOOLS.POLYLINE, global.TOOLS.CURVE]:
-			tool = global.TOOLS.SELECT
+		if active_tool in [global.TOOLS.POLYLINE, global.TOOLS.CURVE]:
+			active_tool = global.TOOLS.SELECT
 			tool_panel.set_tool_icon("select")
 		c.deselect_all()
 	elif Input.is_action_pressed("group"):
@@ -301,12 +301,12 @@ func handle_mouse_button(event : InputEvent, ctrl : bool) -> void:
 	if event.button_index == MOUSE_BUTTON_LEFT:
 		if event.is_pressed():
 			handle_mouse_press(event)
-			if tool == global.TOOLS.SELECT:
+			if active_tool == global.TOOLS.SELECT:
 				use_select_tool_on_pressed(ctrl)
-			elif tool == global.TOOLS.POLYLINE:
+			elif active_tool == global.TOOLS.POLYLINE:
 				use_polyline_tool(event.double_click)
 				c.queue_redraw()
-			elif tool == global.TOOLS.CURVE:
+			elif active_tool == global.TOOLS.CURVE:
 				use_curve_tool(event.double_click)
 				c.update_curve_select_colliders(c.selected[0])
 				c.queue_redraw()
@@ -373,7 +373,7 @@ func use_polyline_tool(double_click : bool) -> void:
 		c.deselect_id(id)
 		await get_tree().process_frame
 		c.select_id(id)
-		tool = global.TOOLS.SELECT
+		active_tool = global.TOOLS.SELECT
 		tool_panel.set_tool_icon("select")
 
 func use_curve_tool(double_click : bool) -> void:
@@ -393,7 +393,7 @@ func use_curve_tool(double_click : bool) -> void:
 		c.deselect_id(id)
 		await get_tree().process_frame
 		c.select_id(id)
-		tool = global.TOOLS.SELECT
+		active_tool = global.TOOLS.SELECT
 		tool_panel.set_tool_icon("select")
 
 func handle_mouse_motion(ev : InputEvent) -> void:
