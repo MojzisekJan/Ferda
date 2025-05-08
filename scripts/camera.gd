@@ -115,7 +115,7 @@ func _unhandled_input(event : InputEvent) -> void:
 	elif Input.is_action_just_pressed("redo"):
 		pass
 	elif Input.is_action_just_pressed("esc"):
-		if active_tool in [global.TOOLS.POLYLINE, global.TOOLS.CURVE]:
+		if active_tool in [global.TOOLS.POLYLINE]:
 			active_tool = global.TOOLS.SELECT
 			tool_panel.set_tool_icon("select")
 		c.deselect_all()
@@ -306,10 +306,6 @@ func handle_mouse_button(event : InputEvent, ctrl : bool) -> void:
 			elif active_tool == global.TOOLS.POLYLINE:
 				use_polyline_tool(event.double_click)
 				c.queue_redraw()
-			elif active_tool == global.TOOLS.CURVE:
-				use_curve_tool(event.double_click)
-				c.update_curve_select_colliders(c.selected[0])
-				c.queue_redraw()
 		elif event.is_released():
 			use_select_tool_on_released(ctrl)
 			mouse_left_down = F
@@ -376,26 +372,6 @@ func use_polyline_tool(double_click : bool) -> void:
 		active_tool = global.TOOLS.SELECT
 		tool_panel.set_tool_icon("select")
 
-func use_curve_tool(double_click : bool) -> void:
-	var id : int = c.selected[0]
-	if c.image[id]["type"] != global.S.curve:
-		print("Wrong call of use_curve_tool!")
-		return
-	var new_point : Vector2 = get_global_mouse_position()
-	var point_in : Vector2 = new_point + Vector2(0, -100)
-	var point_out : Vector2 = new_point + Vector2(0, 100)
-	c.image[id]["control_points"].append(point_in)
-	c.image[id]["control_points"].append(point_out)
-	c.image[id]["curve_instance"].add_point(new_point, Vector2(0, -100), Vector2(0, 100))
-	#c.add_polyline_collider(id)
-	if double_click:
-		c.delete_last_polyline_point(id)
-		c.deselect_id(id)
-		await get_tree().process_frame
-		c.select_id(id)
-		active_tool = global.TOOLS.SELECT
-		tool_panel.set_tool_icon("select")
-
 func handle_mouse_motion(ev : InputEvent) -> void:
 	if is_panning:
 		position -= ev.relative / zoom.x
@@ -453,27 +429,6 @@ func handle_mouse_motion(ev : InputEvent) -> void:
 							c.image[J]["points"][1] += diff
 					elif c.image[J]["type"] == global.S.polyline:
 						c.image[J]["points"][int(extracted[1]) - 1] += diff
-					elif c.image[J]["type"] == global.S.curve:
-						if extracted.size() == 2:
-							var point : Vector2 = c.image[J]["curve_instance"].get_point_position(int(extracted[1]) - 1) + diff
-							c.image[J]["curve_instance"].set_point_position(int(extracted[1]) - 1, point)
-							# Move also anchors in ["control_points"]:
-							# Or get rid of ["control_points"]
-							#TODO FIXME...
-						else:
-							var idx : int = int(extracted[1]) - 1
-							var p : Vector2
-							var b : Vector2
-							if extracted[2] == "l":
-								p = c.image[J]["control_points"][2 * idx] + diff
-								b = c.image[J]["curve_instance"].get_point_out(idx) + diff
-								c.image[J]["curve_instance"].set_point_out(idx, b)
-								c.image[J]["control_points"][2 * idx] = p
-							elif extracted[2] == "r":
-								p = c.image[J]["control_points"][2 * idx + 1] + diff
-								b = c.image[J]["curve_instance"].get_point_in(idx) + diff
-								c.image[J]["curve_instance"].set_point_in(idx, b)
-								c.image[J]["control_points"][2 * idx + 1] = p
 					else:
 						if extracted[1] == "9" or extracted[1] == "10": # arc control
 							var new_angle : float = get_angle_from_center(c.image[J]["position"]+ 0.5*c.image[J]["size"])

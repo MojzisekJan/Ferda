@@ -13,10 +13,10 @@ var def_port   : int = 1705
 var connected_users : Dictionary = {}
 
 # Shapes
-enum S {rectangle, line, polyline, arrow, text, trapezoid, circle, triangle, diamond, hexagon, parallelogram, ngon, star, drop, arc, orthogonalTriangle, image, curve, table, invertor, and_gate, or_gate, nand_gate, nor_gate, xor_gate, buffer, diode, node, ground, heart, capacitor, resistor, inductor, nmos, pmos, pnp, npn, sine}
+enum S {rectangle, line, polyline, arrow, text, trapezoid, circle, triangle, diamond, hexagon, parallelogram, ngon, star, drop, arc, orthogonalTriangle, image, table, invertor, and_gate, or_gate, nand_gate, nor_gate, xor_gate, buffer, diode, node, ground, heart, capacitor, resistor, inductor, nmos, pmos, pnp, npn, sine}
 	
 # Tools
-enum TOOLS {SELECT, PEN, CURVE, POLYLINE, LASER}
+enum TOOLS {SELECT, PEN, POLYLINE, LASER}
 
 # Actions for undo / redo system
 enum ACTION {DESELECT_ALL, SELECT_ALL, SELECT_SHAPE, SELECT_SHAPES, DESELECT_SHAPE, DESELECT_SHAPES, DELETE_SHAPE, DELETE_SHAPES, ADD_SHAPE, ADD_SHAPES, CHANGE_SHAPE, CHANGE_SHAPES}
@@ -89,7 +89,6 @@ var string_to_shape_map = {
 	"arc": global.S.arc,
 	"orthogonal_triangle": global.S.orthogonalTriangle,
 	"image": global.S.image,
-	"curve": global.S.curve,
 	"table": global.S.table,
 	"and_gate": global.S.and_gate,
 	"or_gate": global.S.or_gate,
@@ -114,7 +113,6 @@ var string_to_shape_map = {
 
 var button_to_tool_map = {
 	"polyline": global.TOOLS.POLYLINE,
-	"curve": global.TOOLS.CURVE,
 }
 
 func host(new_name : String = "Unnamed") -> void:

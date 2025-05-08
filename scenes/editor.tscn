@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://cr7xoe476rfs5"]
+[gd_scene load_steps=75 format=3 uid="uid://cr7xoe476rfs5"]
 
 [ext_resource type="Script" path="res://scripts/editor.gd" id="1_083fh"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="2_iutox"]
@@ -29,7 +29,6 @@
 [ext_resource type="Texture2D" uid="uid://bjn0grn5b3olq" path="res://img/polyline.svg" id="23_ev2ol"]
 [ext_resource type="Script" path="res://scripts/cmd.gd" id="23_gt6lj"]
 [ext_resource type="Texture2D" uid="uid://dms1hvggej80i" path="res://img/arrow.svg" id="24_cvbvb"]
-[ext_resource type="Texture2D" uid="uid://d3ceu83b2uioi" path="res://img/curve.svg" id="25_ej7tg"]
 [ext_resource type="Texture2D" uid="uid://btk21s75fqdf7" path="res://img/arc.svg" id="26_qxl47"]
 [ext_resource type="Texture2D" uid="uid://ipmchjqiehgd" path="res://img/rectangle.svg" id="27_cgc7q"]
 [ext_resource type="Texture2D" uid="uid://drh0cgiyv3mjp" path="res://img/circle.svg" id="28_w550s"]
@@ -601,15 +600,6 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 theme = ExtResource("8_64wq5")
 icon = ExtResource("24_cvbvb")
-icon_alignment = 1
-expand_icon = true
-
-[node name="curve" type="Button" parent="Camera2D/CanvasLayer/Control/tools/ScrollContainer/buttons"]
-custom_minimum_size = Vector2(38, 38)
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme = ExtResource("8_64wq5")
-icon = ExtResource("25_ej7tg")
 icon_alignment = 1
 expand_icon = true
 
@@ -1357,7 +1347,6 @@ script = ExtResource("39_srenc")
 [connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/ScrollContainer/buttons/line" to="canvas" method="_on_add_button" binds= ["line"]]
 [connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/ScrollContainer/buttons/polyline" to="canvas" method="_on_add_button" binds= ["polyline"]]
 [connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/ScrollContainer/buttons/arrow" to="canvas" method="_on_add_button" binds= ["arrow"]]
-[connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/ScrollContainer/buttons/curve" to="canvas" method="_on_add_button" binds= ["curve"]]
 [connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/ScrollContainer/buttons/arc" to="canvas" method="_on_add_button" binds= ["arc"]]
 [connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/ScrollContainer/buttons/sine" to="canvas" method="_on_add_button" binds= ["sine"]]
 [connection signal="button_down" from="Camera2D/CanvasLayer/Control/tools/ScrollContainer/buttons/rect" to="canvas" method="_on_add_button" binds= ["rect"]]

@@ -97,8 +97,6 @@ func shape_from_strings(dict_in : Dictionary) -> Dictionary:
 					rec_dict["term_size"] = float(dict_in["term_size"])
 				"control_points":
 					rec_dict["control_points"] = string_array_to_vector2_array(dict_in["control_points"])
-				"curve_instance":
-					rec_dict["curve_instance"] = Curve2D.new()
 				"start_angle":
 					rec_dict["start_angle"] = float(dict_in["start_angle"])
 				"end_angle":

@@ -11,7 +11,5 @@ func set_tool_icon(new_tool : String) -> void:
 	match new_tool:
 		"polyline":
 			icon.texture = load("res://img/polyline.svg")
-		"curve":
-			icon.texture = load("res://img/curve.svg")
 		"select":
 			icon.texture = load("res://img/select.svg")

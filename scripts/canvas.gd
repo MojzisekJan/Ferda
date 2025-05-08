@@ -5,11 +5,9 @@ extends Node2D
 const VZERO : Vector2 = Vector2(0, 0)
 const F : bool = false
 const T : bool = true
-const SIZELESS : Array[global.S] = [global.S.line, global.S.arrow, global.S.polyline, global.S.curve]
-const POL_CURVE : Array[global.S] = [global.S.polyline, global.S.curve]
+const SIZELESS : Array[global.S] = [global.S.line, global.S.arrow, global.S.polyline]
 const CONCAVE : Array[global.S] = [global.S.or_gate, global.S.xor_gate, global.S.star, global.S.heart, global.S.nor_gate]
 const HOVER_COLOR : Color = Color("008cf2")
-
 
 @export var control     : Control
 @export var style       : Panel
@@ -107,14 +105,6 @@ func add_shape(object_type : global.S) -> void:
 				"antialliased": false,
 				"term_size": 16, 
 				"filled": F,
-			}
-		global.S.curve:
-			new_shape = {
-				"position": center_position,
-				"control_points": [],
-				"filled": F,
-				"closed": F,
-				"curve_instance": Curve2D.new(),
 			}
 		global.S.arc:
 			new_shape = {
@@ -383,7 +373,7 @@ func draw_image() -> void:
 		var father : String # handles father
 		# colliders
 		if a in selected:
-			if image[a]["type"] in POL_CURVE:
+			if image[a]["type"] == global.S.polyline:
 				col = get_node_or_null(str(a) + "x0")
 			else:
 				col = get_node_or_null(str(a))
@@ -397,7 +387,7 @@ func draw_image() -> void:
 				print("Error in draw_image var children")
 				return
 			var xy : float = (1.0 / camera.zoom.x) * 16.0
-			if image[a]["type"] in POL_CURVE:
+			if image[a]["type"] == global.S.polyline:
 				for z in children:
 					z.get_child(0).shape.size = Vector2(xy, xy)
 			else:
@@ -467,49 +457,11 @@ func draw_image() -> void:
 					col.position = 0.5 * (image[a]["points"][1] + image[a]["points"][0])
 					var lenght : float = image[a]["points"][1].distance_to(image[a]["points"][0])
 					var width : float =  image[a]["border_width"] + 10
-					col.get_child(0).shape.size = Vector2(width, lenght)
+					#col.get_child(0).shape.size = Vector2(width, lenght)
 					var dif : Vector2 = image[a]["points"][1] - image[a]["points"][0]
 					var angle : float = atan2(dif.x, dif.y)
 					col.rotation = -angle
 					draw_controls(a, image[a]["type"], VZERO, VZERO, image[a]["points"])
-			global.S.curve:
-				var anchors : PackedVector2Array = get_curve_anchors(a)
-				if anchors.size() == 0:
-					continue
-				elif anchors.size() == 1:
-					draw_circle(anchors[0], -1, clr)
-					continue
-				if image[a]["closed"]:
-					anchors.append(anchors[0])
-					draw_polyline(anchors, clr, image[a]["border_width"], image[a]["antialiased"])
-					if image[a]["filled"]:
-						draw_polygon(anchors, [image[a]["fill_color"]])
-					anchors.remove_at(anchors.size() - 1)
-				else:
-					var points : PackedVector2Array = image[a]["curve_instance"].tessellate(6, 3)
-					draw_polyline(points, clr, image[a]["border_width"], image[a]["antialiased"])
-				if a in selected:
-					update_line_colliders(a)
-					draw_controls(a, image[a]["type"], VZERO, VZERO, anchors)
-					# Draw control points
-					var t : int = 0
-					
-					#var curve_control_points : Array
-					#for i in range(image[a]["curve_instance"].get_point_count()):
-						##var anchor = image[a]["curve_instance"].get_point_position(i)
-						#var control_in = image[a]["curve_instance"].get_point_in(i)
-						#curve_control_points.append(control_in)
-						#var control_out = image[a]["curve_instance"].get_point_out(i)
-						#curve_control_points.append(control_out)
-					# tady asi vzdycky pricist dany anchor point
-		
-					for point in image[a]["control_points"]:
-						if t == 1 or t == image[a]["control_points"].size() - 2:
-							t = t + 1
-							continue
-						draw_circle(point, 5, Color.CORAL)
-						draw_line(point, anchors[t / 2], Color.CORAL)
-						t = t + 1
 			global.S.arc:
 				var start_angle : float = deg_to_rad(image[a]["start_angle"])
 				var end_angle : float = deg_to_rad(image[a]["end_angle"])
@@ -1012,16 +964,6 @@ func draw_image() -> void:
 			for h in get_tree().get_nodes_in_group(str(a)):
 				h.position = image[a]["points"][i]
 				i = i + 1
-		elif image[a]["type"] == global.S.curve:
-			var i : int = 0
-			var j : int = image[a]["curve_instance"].get_point_count()
-			var anchors : PackedVector2Array = get_curve_anchors(a)
-			for h in get_tree().get_nodes_in_group(str(a)):
-				if i < j: # anchor handle
-					h.position = anchors[i]
-				else: # control point
-					h.position = image[a]["control_points"][i - j]
-				i = i + 1
 		else:
 			for h in get_tree().get_nodes_in_group(str(a)):
 				var parts : PackedStringArray = h.name.split("_")
@@ -1157,7 +1099,7 @@ func draw_tools() -> void:
 			var col # ? type
 			var father : String # handles father
 			# colliders
-			if image[a]["type"] in POL_CURVE:
+			if image[a]["type"] == global.S.polyline:
 				col = get_node_or_null(str(a) + "x0")
 			else:
 				col = get_node_or_null(str(a))
@@ -1172,7 +1114,7 @@ func draw_tools() -> void:
 				return
 			var children : Array = s.get_children()
 			var xy : float = (1.0 / camera.zoom.x) * 16.0
-			if image[a]["type"] in POL_CURVE:
+			if image[a]["type"] == global.S.polyline:
 				for z in children:
 					z.get_child(0).shape.size = Vector2(xy, xy)
 			else:
@@ -1215,12 +1157,6 @@ func draw_text_to_rect(text : String, siz : Vector2, pos : Vector2, font_siz : f
 	var text_position : float = padding_top + pos.y
 			
 	draw_multiline_string(text_font, Vector2(pos.x, text_position), text, HORIZONTAL_ALIGNMENT_CENTER, siz.x, font_siz, -1, clr)
-
-func get_curve_anchors(curve_id : int) -> PackedVector2Array:
-	var anchors : PackedVector2Array = []
-	for i in range(image[curve_id]["curve_instance"].get_point_count()):
-		anchors.append(image[curve_id]["curve_instance"].get_point_position(i))
-	return anchors
 
 func get_shape_transform(center : Vector2, angle : float) -> Transform2D:
 	var to_center : Transform2D = Transform2D(0, center)
@@ -1267,16 +1203,10 @@ func update_line_colliders(a : int) -> void:
 	# collide names for polyline with id i:
 	# "i" + n * "ixj"
 	print("update_line_colliders", a)
-	if image[a]["type"] == global.S.curve:
-		return
 	var number_of_colliders : int
 	var ex_array : PackedVector2Array
-	if image[a]["type"] == global.S.curve:
-		number_of_colliders = image[a]["curve_instance"].get_point_count()
-		ex_array = get_curve_anchors(a)
-	else:
-		number_of_colliders = image[a]["points"].size() - 2
-		ex_array = image[a]["points"]
+	number_of_colliders = image[a]["points"].size() - 2
+	ex_array = image[a]["points"]
 	# go trough nodes
 	var col
 	
@@ -1327,9 +1257,6 @@ func add_collider(shape : Dictionary, collider_name : String) -> void:
 		global.S.line, global.S.arrow:
 			collision.shape = RectangleShape2D.new()
 			collider_position = shape["points"][0]
-		global.S.polyline, global.S.curve:
-			collision.shape = RectangleShape2D.new()
-			collider_position = VZERO
 		_:
 			collision.shape = ConvexPolygonShape2D.new()
 			collider_position = VZERO
@@ -1337,7 +1264,7 @@ func add_collider(shape : Dictionary, collider_name : String) -> void:
 	collision.debug_color = Color(1,0,0)
 	collider.position = collider_position
 	
-	if shape["type"] in POL_CURVE:
+	if shape["type"] == global.S.polyline:
 		collider.name = collider_name + "x0"
 	else:
 		collider.name = collider_name
@@ -1416,8 +1343,6 @@ func select_id(id_to_select : int) -> void:
 				number_of_handles = 2
 			global.S.polyline:
 				number_of_handles = image[id_to_select]["points"].size()
-			global.S.curve:
-				number_of_handles = image[id_to_select]["curve_instance"].get_point_count() * 3
 			global.S.arc:
 				number_of_handles = 11
 			_:
@@ -1431,22 +1356,13 @@ func create_handles(handles_id : int, number : int) -> void:
 	father.name = str(handles_id) + "_"
 	add_child(father)
 	
-	# no rotation for polyline and curve -> first handle name is: "n_1"
+	# no rotation for polyline -> first handle name is: "n_1"
 	var t : int = 0
 	var o : int = 0
-	if image[handles_id]["type"] in POL_CURVE:
+	if image[handles_id]["type"] == global.S.polyline:
 		t = 1
 	for i in range(0, number):
 		var identifier : String = str(handles_id) + "_" + str(t)
-		if image[handles_id]["type"] == global.S.curve and i > image[handles_id]["curve_instance"].get_point_count() - 1: # name for controls
-			var again : int = t - image[handles_id]["curve_instance"].get_point_count()
-			var side : String = "_l"
-			if again % 2 == 0:
-				side = "_r"
-				o = o + 1
-			again = again - o
-			
-			identifier = str(handles_id) + "_" + str(again) + side
 		t = t + 1
 		if get_node_or_null(identifier):
 			continue
@@ -1539,8 +1455,6 @@ func delete_poly_colliders(id_to_delete : int, segment_count : int) -> void:
 func delete_id(id_to_delete : int) -> void:
 	if image[id_to_delete]["type"] == global.S.polyline:
 		delete_poly_colliders(id_to_delete, image[id_to_delete]["points"].size() - 1)
-	elif image[id_to_delete]["type"] == global.S.curve:
-		delete_poly_colliders(id_to_delete, image[id_to_delete]["curve_instance"].get_point_count() - 1)
 	else:
 		var collider : Object = get_node_or_null(str(id_to_delete))
 		if collider:
@@ -1580,10 +1494,6 @@ func draw_controls(key: int, type : global.S, pos: Vector2, siz: Vector2, points
 		else:
 			for point in points:
 				draw_rect(Rect2(point - half_dims, dims), col, T, -1)
-	elif type == global.S.curve:
-		var anchors : PackedVector2Array = get_curve_anchors(key)
-		for point in anchors:
-			draw_rect(Rect2(point - half_dims, dims), col, T, -1)
 	else:
 		# Around
 		draw_rect(Rect2(pos, siz), col, F)
@@ -1673,15 +1583,6 @@ func select_rectnagle_content(start : Vector2, end : Vector2) -> void:
 						has_all_points = F
 				if has_all_points:
 					select_id(J)
-			global.S.curve:
-				# All points from the polyline must be inside the selection rectangle.
-				var has_all_points : bool = T
-				var anchors : PackedVector2Array = get_curve_anchors(J)
-				for point in anchors:
-					if not pos_sel_rect.has_point(point):
-						has_all_points = F
-				if has_all_points:
-					select_id(J)
 			_:
 				# Both position and (position+size) inside the selection rectangle.
 				if pos_sel_rect.has_point(image[J]["position"]):
@@ -1717,10 +1618,8 @@ func add_polyline_collider(polyline_id : int) -> void:
 	var collision : CollisionShape2D = CollisionShape2D.new()
 	var shape_x : RectangleShape2D
 	var size : int 
-	if image[polyline_id]["type"] == global.S.curve:
-		size = image[polyline_id]["curve_instance"].get_point_count()
-	else:
-		size = image[polyline_id]["points"].size()
+
+	size = image[polyline_id]["points"].size()
 	if size <= 2:
 		return
 	var collider_name : String = str(polyline_id) + "x" + str(size - 2)
@@ -1864,68 +1763,3 @@ func edit_image(action : String, ids_i : Array, data : Dictionary) -> void:
 			for i in ids_i:
 				for prop in data:
 					image[i][prop] = data[prop]
-
-
-func add_curve_collider(polyline_id : int, num : int) -> void:
-	var collider : StaticBody2D = StaticBody2D.new()
-	var collision : CollisionShape2D = CollisionShape2D.new()
-	var shape_x : RectangleShape2D
-	var size : int 
-	if image[polyline_id]["type"] == global.S.curve:
-		size = image[polyline_id]["curve_instance"].get_point_count()
-	else:
-		size = image[polyline_id]["points"].size()
-	if size <= 2:
-		return
-	var collider_name : String = str(polyline_id) + "A" + str(num)
-	shape_x = RectangleShape2D.new()
-	collision.shape = shape_x
-	collision.debug_color = Color(1,0,0)
-	collider.position = VZERO
-	collider.name = collider_name
-	collider.connect("mouse_entered", Callable(self, "_entered").bind(collider_name))
-	collider.connect("mouse_exited", Callable(self, "_exited").bind(collider_name))
-	collider.input_pickable = T
-	add_child(collider)
-	collider.add_child(collision)
-
-func update_curve_select_colliders(c_id : int) -> void:
-	# Delete colliders
-	var segment_id : int = 0
-	while T:
-		var cl : Object = get_node_or_null(str(c_id) + "A" + str(segment_id))
-		if cl:
-			cl.queue_free()
-			segment_id += 1
-		else:
-			break
-	await get_tree().process_frame # ?
-	# Sample points
-	var points : PackedVector2Array = image[c_id]["curve_instance"].tessellate(3, 2)
-	var new_segment_id : int = 0
-	for po in points:
-		add_curve_collider(c_id, new_segment_id)
-		new_segment_id += 1
-	update_curve_colliders(c_id, points.size(), points)
-
-func update_curve_colliders(curve_id : int, collider_count : int, points : PackedVector2Array) -> void:
-	if collider_count < 3 or points.size() < 3:
-		return
-	var number_of_colliders : int = collider_count - 2
-	var border_width : float = image[curve_id]["border_width"] 
-	var collider_width : float = border_width + 10.0
-	for segment_idx in range(number_of_colliders):
-		var collider : Node2D = get_node_or_null(str(curve_id) + "A" + str(segment_idx + 1))
-		if not collider:
-			print("ERROR: collider = null (4)")
-			continue
-		var point1: Vector2 = points[segment_idx + 1]
-		var point2: Vector2 = points[segment_idx + 2]
-		collider.position = 0.5 * (point1 + point2)
-		
-		var lenght : float = points[segment_idx+2].distance_to(points[segment_idx+1])
-		var dd : Vector2 = points[segment_idx+2] - points[segment_idx+1]
-		var angle : float = atan2(dd.x, dd.y)
-		collider.get_child(0).shape.size = Vector2(collider_width, lenght)
-		collider.rotation = -angle
-		
